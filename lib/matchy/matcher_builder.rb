@@ -1,5 +1,7 @@
 module Matchy
   module MatcherBuilder
+    class ChainedMessage < Struct.new(:name, :args, :block); end
+    
     def build_matcher(matcher_name=nil, args=[], &block)
       match_block = lambda do |actual, matcher|
         block.call(actual, matcher, args)
@@ -22,8 +24,7 @@ module Matchy
         end
 
         def method_missing(id, *args, &block)
-          require 'ostruct'
-          (self.chained_messages ||= []) << OpenStruct.new("name" => id, "args" => args, "block" => block)
+          (self.chained_messages ||= []) << ChainedMessage.new(id, args, block)
           self
         end
 

@@ -52,8 +52,6 @@ Hate writing assertions? Need a little behavior-driven love in your tests? Then 
     # passes if @obj.something? is true
 
     * a lot more ...
-    
-* Get the speed of Test:Unit with the syntax of RSpec
 
 * Create your own custom matchers
     
@@ -107,12 +105,12 @@ Hate writing assertions? Need a little behavior-driven love in your tests? Then 
     # Even more advanced, you can have messages on matchers
     class Test::Unit::TestCase
       custom_matcher :have do |receiver, matcher, args|  
-  		  count = args[0]
-  		  something = matcher.chained_messages[0].name
-  		  actual = receiver.send(something).length
-  		  matcher.positive_failure_message = "Expected #{receiver} to have #{actual} #{something}, but found #{count} "
-  		  actual == count
-  		end
+        count = args[0]
+        something = matcher.chained_messages[0].name
+        actual = receiver.send(something).length
+        matcher.positive_failure_message = "Expected #{receiver} to have #{actual} #{something}, but found #{count} "
+        actual == count
+      end
     end
     
     class MoreAdvancedTest < Test::Unit::TestCase

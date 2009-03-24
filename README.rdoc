@@ -65,8 +65,8 @@ Hate writing assertions? Need a little behavior-driven love in your tests? Then 
       
       # also you can set positive (should) and negative (should not) failure messages
       custom_matcher :be_nil do |receiver, matcher, args|
-        matcher.positive_msg = "Expected #{receiver} to be nil but it wasn't"
-        matcher.negative_msg = "Expected #{receiver} not to be nil but it was"
+        matcher.positive_failure_message = "Expected #{receiver} to be nil but it wasn't"
+        matcher.negative_failure_message = "Expected #{receiver} not to be nil but it was"
         receiver.nil?
       end
     end
@@ -110,7 +110,7 @@ Hate writing assertions? Need a little behavior-driven love in your tests? Then 
   		  count = args[0]
   		  something = matcher.msgs[0].name
   		  actual = receiver.send(something).length
-  		  matcher.positive_msg = "Expected #{receiver} to have #{actual} #{something}, but found #{count} "
+  		  matcher.positive_failure_message = "Expected #{receiver} to have #{actual} #{something}, but found #{count} "
   		  actual == count
   		end
     end

@@ -8,7 +8,7 @@ module Matchy
     #   "hello".length.should_not == 2
     #
     class OperatorExpectation #< Base
-      include Matchy.assertions_module
+      include Test::Unit::Assertions
            
       def initialize(receiver, match)
         @receiver, @match = receiver, match

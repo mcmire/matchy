@@ -31,7 +31,6 @@ test/test_error_expectations.rb
 test/test_expectation_builder.rb
 test/test_helper.rb
 test/test_matcher_builder.rb
-test/test_minitest_compatibility.rb
 test/test_modals.rb
 test/test_operator_expectations.rb
 test/test_truth_expectations.rb

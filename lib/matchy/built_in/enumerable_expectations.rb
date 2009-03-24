@@ -31,8 +31,8 @@ module Matchy
       private
       def _clude(sym, obj)
         build_matcher(sym, obj) do |given, matcher, args|
-          matcher.positive_msg = "Expected #{given.inspect} to #{sym} #{args.inspect}."
-          matcher.negative_msg = "Expected #{given.inspect} to not #{sym} #{args.inspect}."
+          matcher.positive_failure_message = "Expected #{given.inspect} to #{sym} #{args.inspect}."
+          matcher.negative_failure_message = "Expected #{given.inspect} to not #{sym} #{args.inspect}."
           args.inject(true) {|m,o| m && (given.include?(o) == (sym == :include)) }
         end
       end

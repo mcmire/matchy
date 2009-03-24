@@ -99,8 +99,8 @@ class TestCustomMatcher < Test::Unit::TestCase
   def test_matcher
     self.class.class_eval do
       custom_matcher :be_valid do |receiver, matcher, args|
-        matcher.positive_msg = "Expected to be valid but wasn't"
-        matcher.negative_msg = "Expected to not be valid but was"
+        matcher.positive_failure_message = "Expected to be valid but wasn't"
+        matcher.negative_failure_message = "Expected to not be valid but was"
         receiver.valid?
       end
     end
@@ -124,7 +124,7 @@ class TestCustomMatcher < Test::Unit::TestCase
   		  count = args[0]
   		  something = matcher.msgs[0].name
   		  actual = receiver.send(something).length
-  		  matcher.positive_msg = "Expected #{receiver} to have #{actual} #{something}, but found #{count} "
+  		  matcher.positive_failure_message = "Expected #{receiver} to have #{actual} #{something}, but found #{count} "
   		  actual == count
   		end
     end

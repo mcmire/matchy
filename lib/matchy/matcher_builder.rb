@@ -13,7 +13,7 @@ module Matchy
           @matcher_name
         end
 
-        attr_accessor :positive_failure_message, :negative_failure_message, :msgs
+        attr_accessor :positive_failure_message, :negative_failure_message, :chained_messages
         attr_reader :matcher_name
         
         def initialize(match_block, test_case)
@@ -23,7 +23,7 @@ module Matchy
 
         def method_missing(id, *args, &block)
           require 'ostruct'
-          (self.msgs ||= []) << OpenStruct.new("name" => id, "args" => args, "block" => block)
+          (self.chained_messages ||= []) << OpenStruct.new("name" => id, "args" => args, "block" => block)
           self
         end
 

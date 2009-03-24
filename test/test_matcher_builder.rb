@@ -39,34 +39,34 @@ class TestMatcherBuilder < Test::Unit::TestCase
   end
   
   def test_received_method
-    block = lambda {|given, matcher, args| $msgs = matcher.msgs; true}
+    block = lambda {|given, matcher, args| $chained_messages = matcher.chained_messages; true}
     @obj.should build_matcher(:m, &block).method1
-    $msgs[0].name.should eql(:method1)
+    $chained_messages[0].name.should eql(:method1)
   end
   
   def test_received_method_takes_args
-    block = lambda {|given, matcher, args| $msgs = matcher.msgs; true}
+    block = lambda {|given, matcher, args| $chained_messages = matcher.chained_messages; true}
     @obj.should build_matcher(:m, &block).method1(1,2,3)
-    $msgs[0].args.should eql([1,2,3])
+    $chained_messages[0].args.should eql([1,2,3])
   end
   
   def test_received_method_takes_block
-    block = lambda {|given, matcher, args| $msgs = matcher.msgs; true}
+    block = lambda {|given, matcher, args| $chained_messages = matcher.chained_messages; true}
     @obj.should build_matcher(:m, &block).method1 { "Hello, World!"}
-    $msgs[0].block.call.should eql("Hello, World!")
+    $chained_messages[0].block.call.should eql("Hello, World!")
   end
   
   def test_received_method_chained
-    block = lambda {|given, matcher, args| $msgs = matcher.msgs; true}
+    block = lambda {|given, matcher, args| $chained_messages = matcher.chained_messages; true}
     @obj.should build_matcher(:m, &block).method1(1,2,3) { "Hello, World!"}.
       method2(4,5,6) { "Hello chained messages" }
       
-    $msgs[0].name.should eql(:method1)
-    $msgs[1].name.should eql(:method2)
-    $msgs[0].args.should eql([1,2,3])
-    $msgs[1].args.should eql([4,5,6])
-    $msgs[0].block.call.should eql("Hello, World!")
-    $msgs[1].block.call.should eql("Hello chained messages")
+    $chained_messages[0].name.should eql(:method1)
+    $chained_messages[1].name.should eql(:method2)
+    $chained_messages[0].args.should eql([1,2,3])
+    $chained_messages[1].args.should eql([4,5,6])
+    $chained_messages[0].block.call.should eql("Hello, World!")
+    $chained_messages[1].block.call.should eql("Hello chained messages")
   end
 
 end

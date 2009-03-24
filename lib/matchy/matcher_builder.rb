@@ -4,6 +4,7 @@ module Matchy
       match_block = lambda do |actual, matcher|
         block.call(actual, matcher, args)
       end
+      
       body = lambda do |klass|
         include Matchy.assertions_module
         @matcher_name = matcher_name.to_s
@@ -13,6 +14,7 @@ module Matchy
 
         attr_accessor :positive_msg, :negative_msg, :msgs
         attr_reader :matcher_name
+        
         def initialize match_block, test_case
           @match_block, @test_case = match_block, test_case
           @matcher_name = self.class.matcher_name

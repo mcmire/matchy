@@ -1,8 +1,7 @@
 $:.unshift(File.dirname(__FILE__)) unless
   $:.include?(File.dirname(__FILE__)) || $:.include?(File.expand_path(File.dirname(__FILE__)))
 
-# Matchy should work with either test/unit 
-# or minitest
+# Matchy should work with either test/unit or minitest
 module Matchy
   def self.minitest?
     # This needs to be better.
@@ -13,9 +12,11 @@ module Matchy
     defined?(MiniTest) && defined?(MiniTest::Assertions) && 
         (!defined?(Test::Unit::TestCase) || !(Test::Unit::TestCase < MiniTest::Assertions))
   end
+  
   def self.assertions_module
     minitest? ? MiniTest::Assertions : Test::Unit::Assertions
   end
+  
   def self.test_case_class
     minitest? ? MiniTest::Unit::TestCase : Test::Unit::TestCase
   end
@@ -26,9 +27,9 @@ require 'test/unit' unless Matchy.minitest?
 
 require 'matchy/expectation_builder'
 require 'matchy/modals'
-require 'matchy/version'
 require 'matchy/matcher_builder'
-require 'matchy/def_matcher'
+require 'matchy/custom_matcher'
+require 'matchy/version'
 
 require 'matchy/built_in/enumerable_expectations'
 require 'matchy/built_in/error_expectations'
@@ -49,6 +50,5 @@ Matchy.test_case_class.class_eval do
 end
 
 Matchy.test_case_class.send(:include, Matchy::Expectations::TestCaseExtensions)
-
-include Matchy::DefMatcher
-
+Matchy.test_case_class.send(:include, Matchy::MatcherBuilder)
+Matchy.test_case_class.send(:extend, Matchy::CustomMatcher)

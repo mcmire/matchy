@@ -108,7 +108,7 @@ Hate writing assertions? Need a little behavior-driven love in your tests? Then 
     class Test::Unit::TestCase
       custom_matcher :have do |receiver, matcher, args|  
   		  count = args[0]
-  		  something = matcher.msgs[0].name
+  		  something = matcher.chained_messages[0].name
   		  actual = receiver.send(something).length
   		  matcher.positive_failure_message = "Expected #{receiver} to have #{actual} #{something}, but found #{count} "
   		  actual == count

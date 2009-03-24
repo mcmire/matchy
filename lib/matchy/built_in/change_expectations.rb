@@ -12,7 +12,7 @@ module Matchy
         build_matcher(:change) do |receiver, matcher, args|
           before, done, after = block.call, receiver.call, block.call
           comparison = after != before
-          if list = matcher.msgs
+          if list = matcher.chained_messages
             comparison = case list[0].name
               # todo: provide meaningful messages
             when :by          then (after == before + list[0].args[0] || after == before - list[0].args[0])

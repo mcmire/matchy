@@ -122,7 +122,7 @@ class TestCustomMatcher < Test::Unit::TestCase
     self.class.class_eval do
       custom_matcher :have do |receiver, matcher, args|  
   		  count = args[0]
-  		  something = matcher.msgs[0].name
+  		  something = matcher.chained_messages[0].name
   		  actual = receiver.send(something).length
   		  matcher.positive_failure_message = "Expected #{receiver} to have #{actual} #{something}, but found #{count} "
   		  actual == count

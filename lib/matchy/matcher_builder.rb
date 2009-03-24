@@ -15,8 +15,8 @@ module Matchy
           @matcher_name
         end
 
-        attr_accessor :positive_failure_message, :negative_failure_message, :chained_messages
         attr_reader :matcher_name
+        attr_accessor :positive_failure_message, :negative_failure_message, :chained_messages
         
         def initialize(match_block, test_case)
           @match_block, @test_case = match_block, test_case
@@ -41,8 +41,8 @@ module Matchy
         def pass!(which)
           @test_case.assert true
         end
+        
         alias_method :failure_message, :positive_failure_message
-        alias_method :negative_failure_message, :negative_failure_message
       end
       
       Class.new(&body).new(match_block, self)

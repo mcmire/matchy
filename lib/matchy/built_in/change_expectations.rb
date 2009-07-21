@@ -21,8 +21,8 @@ module Matchy
             when :from        then (before == list[0].args[0]) && (after == list[1].args[0])
             end
           end
-          matcher.positive_failure_message = "given block shouldn't alter the block attached to change"
-          matcher.negative_failure_message = "given block should alter the block attached to change"
+          matcher.positive_failure_message = "given block should alter the given value"
+          matcher.negative_failure_message = "given block shouldn't alter the given value"
           comparison
         end
       end

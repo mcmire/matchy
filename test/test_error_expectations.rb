@@ -136,6 +136,18 @@ class TestErrorExpectations < Matchy.test_case_class
     end.should raise_error
   end
   
+  class MyCustomException < StandardError; end
+  
+  def test_error_and_message
+    lambda { raise MyCustomException, "other message" }.should raise_error(MyCustomException, /^other/)
+  end
+
+  def test_error_and_wrong_message
+    lambda do
+      lambda { raise MyCustomException, "other message" }.should raise_error(MyCustomException, /^not/)
+    end.should raise_error(/matching/)
+  end
+  
   def test_regexp_argument_message_fails_wrong_message
     lambda do
       lambda { raise "other message" }.should raise_error(/abc/)

@@ -12,6 +12,10 @@ module Matchy
       def raise_error(*obj)
         build_matcher(:raise_error, obj) do |receiver, matcher, args|
           expected = args[0] || Exception
+          if args.size > 1
+            expected_message = args[1]
+          end
+          
           raised = false
           error = nil
           begin
@@ -26,10 +30,14 @@ module Matchy
             matcher.negative_failure_message = "Expected #{receiver.inspect} to not raise #{expected.name}."
             comparison = (raised && error.class.ancestors.include?(expected))
           else
+            expected_message = expected
+          end
+          
+          if expected_message
             message = error ? error.message : "none"
-            matcher.positive_failure_message = "Expected #{receiver.inspect} to raise error with message matching '#{expected}', but '#{message}' was raised."
-            matcher.negative_failure_message = "Expected #{receiver.inspect} to raise error with message not matching '#{expected}', but '#{message}' was raised."
-            comparison = (raised && (expected.kind_of?(Regexp) ? ((error.message =~ expected) ? true : false) : expected == error.message))
+            matcher.positive_failure_message = "Expected #{receiver.inspect} to raise error with message matching '#{expected_message}', but '#{message}' was raised."
+            matcher.negative_failure_message = "Expected #{receiver.inspect} to raise error with message not matching '#{expected_message}', but '#{message}' was raised."
+            comparison = (raised && (expected_message.kind_of?(Regexp) ? ((error.message =~ expected_message) ? true : false) : expected_message == error.message))
           end
           comparison
         end

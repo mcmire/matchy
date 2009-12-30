@@ -31,7 +31,13 @@ module Matchy
       end
       
       def failure_message(operator)
-        "Expected #{@receiver.inspect} to #{operator} #{@expected.inspect}."
+        out = "Expected #{@receiver.inspect} to #{operator} #{@expected.inspect}"
+        if Hash === @receiver && Hash === @expected
+          # Hash#diff, from ActiveSupport
+          diff = @receiver.dup.delete_if { |k, v| @expected[k] == v }.merge(@expected.dup.delete_if { |k, v| @receiver.has_key?(k) })
+          out += " (diff: #{diff.inspect})"
+        end
+        out += "."
       end
       
       def negative_failure_message(operator)

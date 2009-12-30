@@ -154,4 +154,14 @@ class TestOperatorExpectations < Test::Unit::TestCase
     
     (obj == 3).should == "Expected 3 to not == 3."
   end
+  
+  def test_fail_message_for_hash
+    obj = Matchy::Expectations::OperatorExpectation.new({:foo => 'bar', :baz => 'quux'}, true)
+    
+    def obj.flunk(msg)
+      msg
+    end
+    
+    (obj == {:foo => 'bar'}).should == "Expected {:baz=>\"quux\", :foo=>\"bar\"} to == {:foo=>\"bar\"} (diff: {:baz=>\"quux\"})."
+  end
 end

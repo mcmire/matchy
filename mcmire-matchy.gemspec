@@ -5,7 +5,7 @@
 
 Gem::Specification.new do |s|
   s.name = %q{mcmire-matchy}
-  s.version = "0.4.1"
+  s.version = "0.4.2"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Jeremy McAnally"]
@@ -38,6 +38,7 @@ Gem::Specification.new do |s|
      "lib/matchy/modals.rb",
      "lib/matchy/version.rb",
      "matchy.gemspec",
+     "mcmire-matchy.gemspec",
      "setup.rb",
      "tasks/deployment.rake",
      "tasks/environment.rake",

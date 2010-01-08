@@ -37,7 +37,6 @@ Gem::Specification.new do |s|
      "lib/matchy/matcher_builder.rb",
      "lib/matchy/modals.rb",
      "lib/matchy/version.rb",
-     "matchy.gemspec",
      "mcmire-matchy.gemspec",
      "setup.rb",
      "tasks/deployment.rake",

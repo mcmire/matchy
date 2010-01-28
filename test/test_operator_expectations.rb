@@ -156,12 +156,13 @@ class TestOperatorExpectations < Matchy.test_case_class
   end
   
   def test_fail_message_for_hash
-    obj = Matchy::Expectations::OperatorExpectation.new({:foo => 'bar', :baz => 'quux'}, true)
+    hash = {:foo => 'bar', :baz => 'quux'}
+    obj = Matchy::Expectations::OperatorExpectation.new(hash, true)
     
     def obj.flunk(msg)
       msg
     end
     
-    (obj == {:foo => 'bar'}).should == "Expected {:baz=>\"quux\", :foo=>\"bar\"} to == {:foo=>\"bar\"} (diff: {:baz=>\"quux\"})."
+    (obj == {:foo => 'bar'}).should == "Expected #{hash.inspect} to == {:foo=>\"bar\"} (diff: {:baz=>\"quux\"})."
   end
 end

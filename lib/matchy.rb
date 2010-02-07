@@ -6,9 +6,6 @@ end
 # Note that Ruby 1.9.0 is NOT supported... but you should really be using 1.9.1 ;)
 module Matchy
   def self.minitest_tu_shim?
-    # We have to decide if we really have a suite of MiniTest tests.
-    # Rails for example defines MiniTest, so to only check for
-    # defined?(MiniTest) would be malicious
     defined?(MiniTest) && defined?(MiniTest::Assertions) &&
     defined?(Test::Unit::TestCase) && Test::Unit::TestCase < MiniTest::Assertions
   end
@@ -18,7 +15,10 @@ module Matchy
   end
   
   def self.minitest?
-    !classic?
+    # We have to decide if we really have a suite of MiniTest tests.
+    # Rails for example defines MiniTest, so to only check for
+    # defined?(MiniTest) would be malicious
+    defined?(MiniTest) && !classic?
   end
   
   def self.assertions_module
@@ -33,9 +33,12 @@ module Matchy
     minitest? ? MiniTest::Assertion : Test::Unit::AssertionFailedError
   end
 end
-MiniTest::Unit.autorun if Matchy.minitest?
 
-if $MATCHY_DEBUG
+unless Matchy.minitest? or Matchy.classic?
+  raise LoadError, "Incompatible testing library present! Please use either Test::Unit or MiniTest with matchy"
+end
+
+if ENV["MATCHY_DEBUG"] || $MATCHY_DEBUG
   puts
   print " -- This is Ruby version #{RUBY_VERSION}, using "
   if Matchy.minitest_tu_shim?
@@ -47,6 +50,8 @@ if $MATCHY_DEBUG
   end
   puts
 end
+
+MiniTest::Unit.autorun if Matchy.minitest?
 
 require 'matchy/expectation_builder'
 require 'matchy/modals'

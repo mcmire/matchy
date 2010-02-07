@@ -12,8 +12,8 @@ module Matchy
       def be(*obj)
         build_matcher(:be, obj) do |receiver, matcher, args|
           @receiver, expected = receiver, args[0]
-          matcher.positive_msg = "Expected #{@receiver.inspect} to be #{expected.inspect}."
-          matcher.negative_msg = "Expected #{@receiver.inspect} to not be #{expected.inspect}."
+          matcher.positive_failure_message = "Expected #{@receiver.inspect} to be #{expected.inspect}."
+          matcher.negative_failure_message = "Expected #{@receiver.inspect} to not be #{expected.inspect}."
           expected == @receiver
         end
       end
@@ -28,8 +28,8 @@ module Matchy
       def be_close(obj, delta = 0.3)
         build_matcher(:be_close, [obj, delta]) do |receiver, matcher, args|
           @receiver, expected, delta = receiver, args[0], args[1]
-          matcher.positive_msg = "Expected #{@receiver.inspect} to be close to #{expected.inspect} (delta: #{delta})."
-          matcher.negative_msg = "Expected #{@receiver.inspect} to not be close to #{expected.inspect} (delta: #{delta})."
+          matcher.positive_failure_message = "Expected #{@receiver.inspect} to be close to #{expected.inspect} (delta: #{delta})."
+          matcher.negative_failure_message = "Expected #{@receiver.inspect} to not be close to #{expected.inspect} (delta: #{delta})."
           (@receiver - expected).abs < delta
         end
       end
@@ -84,8 +84,8 @@ module Matchy
       def satisfy(*obj)
         build_matcher(:satisfy, obj) do |receiver, matcher, args|
           @receiver, expected = receiver, args[0]
-          matcher.positive_msg = "Expected #{@receiver.inspect} to satisfy given block."
-          matcher.negative_msg = "Expected #{@receiver.inspect} to not satisfy given block."
+          matcher.positive_failure_message = "Expected #{@receiver.inspect} to satisfy given block."
+          matcher.negative_failure_message = "Expected #{@receiver.inspect} to not satisfy given block."
           expected.call(@receiver) == true
         end
       end
@@ -136,8 +136,8 @@ module Matchy
       def ask_for(sym, option={})
         build_matcher(sym, (option[:with_arg] || [])) do |receiver, matcher, args|
           expected, meth = args[0], (sym.to_s + "?" ).to_sym
-          matcher.positive_msg = "Expected #{receiver.inspect} to return true for #{sym}?, with '#{(expected && expected.inspect) || 'no args'}'."
-          matcher.negative_msg = "Expected #{receiver.inspect} to not return true for #{sym}?, with '#{(expected && expected.inspect) || 'no args'}'."
+          matcher.positive_failure_message = "Expected #{receiver.inspect} to return true for #{sym}?, with '#{(expected && expected.inspect) || 'no args'}'."
+          matcher.negative_failure_message = "Expected #{receiver.inspect} to not return true for #{sym}?, with '#{(expected && expected.inspect) || 'no args'}'."
           expected ? receiver.send(meth, expected) : receiver.send(meth)
         end
       end

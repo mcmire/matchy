@@ -35,6 +35,7 @@ module Matchy
   end
 end
 MiniTest::Unit.autorun if Matchy.minitest?
+
 require 'matchy/expectation_builder'
 require 'matchy/modals'
 require 'matchy/matcher_builder'
@@ -58,5 +59,4 @@ Matchy.test_case_class.class_eval do
 end
 
 Matchy.test_case_class.send(:include, Matchy::Expectations::TestCaseExtensions)
-Matchy.test_case_class.send(:include, Matchy::MatcherBuilder)
-Matchy.test_case_class.send(:extend, Matchy::CustomMatcher)
+include Matchy::CustomMatcher

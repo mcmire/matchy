@@ -1,25 +1,24 @@
-$:.unshift(File.dirname(__FILE__)) unless
-  $:.include?(File.dirname(__FILE__)) || $:.include?(File.expand_path(File.dirname(__FILE__)))
 unless defined?(Test::Unit) || defined?(MiniTest)
-  raise "No Testing library present! Either Test::Unit or MiniTest must be required before loading matchy" 
+  raise LoadError, "No testing library present! Either Test::Unit or MiniTest must be required before loading matchy" 
 end
 
-# Matchy should work with either test/unit or minitest
+# Matchy works with either Test::Unit or MiniTest, on both Ruby 1.8 and >= 1.9.1.
+# Note that Ruby 1.9.0 is NOT supported... but you should really be using 1.9.1 ;)
 module Matchy
-  def self.classic?
-    # We have to decide if we really have a 
-    # suite of MiniTest Tests.
+  def self.minitest_tu_shim?
+    # We have to decide if we really have a suite of MiniTest tests.
     # Rails for example defines MiniTest, so to only check for
     # defined?(MiniTest) would be malicious
-    !defined?(FORCE_MINITEST) && defined?(Test::Unit) && defined?(Test::Unit::TestCase) && !minitest_tu_shim?
+    defined?(MiniTest) && defined?(MiniTest::Assertions) &&
+    defined?(Test::Unit::TestCase) && Test::Unit::TestCase < MiniTest::Assertions
+  end
+  
+  def self.classic?
+    defined?(Test::Unit) && defined?(Test::Unit::TestCase) && !minitest_tu_shim?
   end
   
   def self.minitest?
-    !classic? && !minitest_tu_shim?
-  end
-  
-  def self.minitest_tu_shim?
-    defined?(Test::Unit::TestCase) && defined?(MiniTest::Assertions) && Test::Unit::TestCase < MiniTest::Assertions
+    !classic?
   end
   
   def self.assertions_module
@@ -35,6 +34,19 @@ module Matchy
   end
 end
 MiniTest::Unit.autorun if Matchy.minitest?
+
+if $MATCHY_DEBUG
+  puts
+  print " -- This is Ruby version #{RUBY_VERSION}, using "
+  if Matchy.minitest_tu_shim?
+    puts "MiniTest-Test::Unit shim"
+  elsif Matchy.minitest?
+    puts "MiniTest"
+  else
+    puts "Test::Unit"
+  end
+  puts
+end
 
 require 'matchy/expectation_builder'
 require 'matchy/modals'

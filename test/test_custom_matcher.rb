@@ -1,6 +1,6 @@
 require File.dirname(__FILE__) + '/test_helper.rb'
 
-class TestCustomMatcher < Test::Unit::TestCase
+class TestCustomMatcher < Matchy.test_case_class
   class Foo < Struct.new(:valid)
     def valid?
       valid == true
@@ -110,12 +110,12 @@ class TestCustomMatcher < Test::Unit::TestCase
     foo.valid = false
     lambda {
       foo.should be_valid
-    }.should raise_error("Expected to be valid but wasn't.")
+    }.should raise_error(/^Expected to be valid but wasn't/)
     
     foo.valid = true
     lambda {
       foo.should_not be_valid
-    }.should raise_error("Expected to not be valid but was.")
+    }.should raise_error(/^Expected to not be valid but was/)
   end
   
   def test_matcher_with_chained_messages

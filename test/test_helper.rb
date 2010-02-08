@@ -45,10 +45,12 @@ if RUBY_VERSION.to_f < 1.9
       gem 'minitest'
       dir = Config::CONFIG["sitelibdir"]
       unless File.symlink?("#{dir}/minitest") && File.symlink?("#{dir}/test")
-        puts
-        puts "   ** To get a true test, you need to run `sudo use_minitest yes` to flip on minitest_tu_shim mode."
-        puts
-        exit 1
+        #puts
+        #puts "   ** To get a true test, you need to run `sudo use_minitest yes` to flip on minitest_tu_shim mode."
+        #puts
+        #exit 1
+        puts "Enabling the shim..."; `sudo use_minitest yes`
+        at_exit { puts "Disabling the shim..."; `sudo use_minitest no` }
       end
       require 'test/unit'
     when "minitest"

@@ -5,7 +5,7 @@
 
 Gem::Specification.new do |s|
   s.name = %q{mcmire-matchy}
-  s.version = "0.5.0"
+  s.version = "0.5.1"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Jeremy McAnally"]
@@ -21,6 +21,7 @@ Gem::Specification.new do |s|
      "Rakefile",
      "countloc.rb",
      "lib/matchy.rb",
+     "lib/matchy/assertions.rb",
      "lib/matchy/built_in/change_expectations.rb",
      "lib/matchy/built_in/enumerable_expectations.rb",
      "lib/matchy/built_in/error_expectations.rb",

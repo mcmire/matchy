@@ -74,6 +74,7 @@ module Matchy
     end
   
     def init
+      require 'matchy/assertions'
       require 'matchy/expectation_builder'
       require 'matchy/modals'
       require 'matchy/matcher_builder'
@@ -86,9 +87,12 @@ module Matchy
       require 'matchy/built_in/operator_expectations'
       require 'matchy/built_in/change_expectations'
 
-      # Track the current testcase and 
-      # provide it to the operator matchers.
       Matchy.test_case_class.class_eval do
+        include Matchy::Expectations::TestCaseExtensions
+        include Matchy::Assertions
+        
+        # Track the current testcase and 
+        # provide it to the operator matchers.
         alias_method :old_run_method_aliased_by_matchy, :run
         def run(whatever, *args, &block)
           $current_test_case = self
@@ -96,8 +100,7 @@ module Matchy
         end
       end
 
-      Matchy.test_case_class.send(:include, Matchy::Expectations::TestCaseExtensions)
-      Object.send(:include, Matchy::CustomMatcher)
+      Object.class_eval { include Matchy::CustomMatcher }
     end
   end
 end

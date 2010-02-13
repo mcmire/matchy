@@ -4,12 +4,12 @@
 # -*- encoding: utf-8 -*-
 
 Gem::Specification.new do |s|
-  s.name = %q{matchy}
-  s.version = "0.4.0"
+  s.name = %q{mcmire-matchy}
+  s.version = "0.5.0"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Jeremy McAnally"]
-  s.date = %q{2009-03-23}
+  s.date = %q{2010-02-13}
   s.description = %q{RSpec-esque matchers for use in Test::Unit}
   s.email = ["jeremy@entp.com"]
   s.extra_rdoc_files = [
@@ -38,11 +38,7 @@ Gem::Specification.new do |s|
   s.rubygems_version = %q{1.3.5}
   s.summary = %q{RSpec-esque matchers for use in Test::Unit}
   s.test_files = [
-    "test/all.rb",
-     "test/minitest_compatibility_tests.rb",
-     "test/ruby1.8.compatibility_tests.rb",
-     "test/ruby1.9.compatibility_tests.rb",
-     "test/test_change_expectation.rb",
+    "test/test_change_expectation.rb",
      "test/test_custom_matcher.rb",
      "test/test_enumerable_expectations.rb",
      "test/test_error_expectations.rb",

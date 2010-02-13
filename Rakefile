@@ -7,7 +7,7 @@ begin
   require 'jeweler'
   Jeweler::Tasks.new do |gem|
     gem.version = Matchy::VERSION::STRING
-    gem.name = "matchy"
+    gem.name = "mcmire-matchy"
     gem.summary = %Q{RSpec-esque matchers for use in Test::Unit}
     gem.description = %Q{RSpec-esque matchers for use in Test::Unit}
     gem.email = ["jeremy@entp.com"]

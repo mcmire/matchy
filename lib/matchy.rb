@@ -66,11 +66,9 @@ module Matchy
     end
     
     %w(assertions_module test_case_class assertion_failed_error).each do |method|
-      class_eval <<-EOT, __FILE__, __LINE__
-        def #{method}
-          @@current_adapter ? @@current_adapter.#{method} : raise(LoadError, Matchy.adapter_not_found_msg)
-        end
-      EOT
+      define_method(method) do
+        @@current_adapter ? @@current_adapter.__send__(method) : raise(LoadError, Matchy.adapter_not_found_msg)
+      end
     end
   
     def init

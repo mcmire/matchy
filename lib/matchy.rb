@@ -40,9 +40,21 @@ module Matchy
     def assertion_failed_error; MiniTest::Assertion; end
     def on_use; MiniTest::Unit.autorun; end
   end
+  adapter :minitest_activesupport, "MiniTest (Active Support)" do
+    def assertions_module; ActiveSupport::Testing::Assertions; end
+    def test_case_class; ActiveSupport::TestCase; end
+    def assertion_failed_error; MiniTest::Assertion; end
+    def on_use; MiniTest::Unit.autorun; end
+  end
   adapter :testunit, "Test::Unit" do
     def assertions_module; Test::Unit::Assertions; end
     def test_case_class; Test::Unit::TestCase; end
+    def test_case_runner; Test::Unit::TestCase; end
+    def assertion_failed_error; Test::Unit::AssertionFailedError; end
+  end
+  adapter :testunit_activesupport, "Test::Unit (Active Support)" do
+    def assertions_module; ActiveSupport::Testing::Assertions; end
+    def test_case_class; ActiveSupport::TestCase; end
     def assertion_failed_error; Test::Unit::AssertionFailedError; end
   end
   
@@ -53,9 +65,17 @@ module Matchy
       defined?(MiniTest) && defined?(MiniTest::Assertions) &&
       defined?(Test::Unit::TestCase) && Test::Unit::TestCase < MiniTest::Assertions
     end
+
+    def classic_with_activesupport?
+      classic? && defined?(ActiveSupport::Testing)
+    end
   
     def classic?
       defined?(Test::Unit) && defined?(Test::Unit::TestCase) && !minitest_tu_shim?
+    end
+
+    def minitest_with_activesupport?
+      minitest? && defined?(ActiveSupport::Testing)
     end
   
     def minitest?
@@ -104,7 +124,9 @@ module Matchy
 end
 
 autodetected_adapter = case
+  when Matchy.minitest_with_activesupport? then :minitest_activesupport
   when Matchy.minitest? then :minitest
+  when Matchy.classic_with_activesupport? then :testunit_activesupport
   when Matchy.classic?  then :testunit
 end
 if autodetected_adapter
